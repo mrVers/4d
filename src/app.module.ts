@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
-import { CatsModule } from './cats/cats.module';
+import { MediaModule } from './media/media.module';
+import { ScheduleModule } from 'nest-schedule';
 
 @Module({
-  imports: [CatsModule],
+  imports: [
+    MediaModule,
+    ScheduleModule.register()
+  ]
 })
 export class ApplicationModule {}
