@@ -37,6 +37,11 @@ export class MediaController {
               episode = res.mediaFiles[0];
             }
 
+            if (!episode) {
+              console.log('No mp4');
+              return;
+            }
+
             const mediaData: MediaDto = {
               title: res.title,
               link: episode.streamers.http + episode.filename,

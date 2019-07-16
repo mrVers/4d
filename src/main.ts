@@ -4,7 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { ApplicationModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(ApplicationModule);
+  const app = await NestFactory.create(ApplicationModule, { cors: true });
   await app.listen(process.env.API_PORT);
   console.log('API running on port: ' + process.env.API_PORT);
 }

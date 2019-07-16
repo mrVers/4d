@@ -36,6 +36,7 @@ export class RtvService {
 
   private parseData(data: string, cb: string) {
     // trim json wrappers
+    console.log(data);
     const parsedData = data.replace(`${cb}(`, '');
     return JSON.parse(parsedData.substring(0, parsedData.length - 2));
   }

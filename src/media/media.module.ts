@@ -5,6 +5,7 @@ import { RtvService } from './rtv.service';
 import { Connection } from 'mongoose';
 import { MediaSchema } from './schema/media.schema';
 import { DatabaseModule } from '../database/database.module';
+import { ScheduleService } from './schedule.service';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { DatabaseModule } from '../database/database.module';
       provide: 'MEDIA_MODEL',
       useFactory: (connection: Connection) => connection.model('Media', MediaSchema),
       inject: ['DATABASE_CONNECTION'],
-    }
+    },
+    ScheduleService
   ],
 })
 export class MediaModule {
