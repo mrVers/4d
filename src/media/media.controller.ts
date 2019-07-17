@@ -38,7 +38,7 @@ export class MediaController {
             }
 
             if (!episode) {
-              console.log('No mp4');
+              console.log('No .mp4');
               return;
             }
 

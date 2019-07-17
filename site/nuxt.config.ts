@@ -8,7 +8,8 @@ export default {
       { hid: 'description', name: 'description', content: '{{ description }}' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Space+Mono:400,700&display=swap&subset=latin-ext' }
     ]
   },
   loading: { color: '#3B8070' },
@@ -17,5 +18,6 @@ export default {
   modules: [
     '@nuxtjs/axios',
   ],
-  axios: {}
+  axios: {},
+  plugins: ['~/plugins/vue2-filters.ts']
 };
