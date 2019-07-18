@@ -1,6 +1,6 @@
-# {{ name }}
+# 4D
 
-> {{ description }}
+> A simple web viewer in Nuxt.js (Vue.js) for videos. Inspired by Youtube.
 
 ## Build Setup
 
