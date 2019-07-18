@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="content">
-      <FrontSection :episodes="episodes" :sectionTitle="'Najnovejši dokumentarci'" :sectionLimit="10"></FrontSection>
-      <FrontSection :episodes="episodes" :sectionTitle="'Najnovejši filmi'" :sectionLimit="10"></FrontSection>
+      <FrontSection :episodes="episodes" :sectionTitle="'Dokumentarci'" :sectionLimit="100"></FrontSection>
     </div>
   </div>
 </template>
@@ -13,7 +12,6 @@ import { State } from "vuex-class"
 import Card from "~/components/Card.vue"
 import Header from '~/components/Header.vue';
   import FrontSection from '~/components/FrontSection.vue';
-
 
 @Component({
   components: {
@@ -26,7 +24,7 @@ export default class extends Vue {
   @State episodes?: any;
 
   async mounted() {
-    await (this as any).$store.dispatch('GET');
+    await (this as any).$store.dispatch('GET_DOCS');
   }
 }
 </script>
@@ -38,12 +36,7 @@ export default class extends Vue {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    padding: 0 24px;
-
-    @media (min-width: 448px) {
-      width: 428px;
-      padding: 0;
-    }
+    width: 428px;
 
     @media (min-width: 662px) {
       width: 664px;

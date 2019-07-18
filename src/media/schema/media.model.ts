@@ -5,6 +5,8 @@ export interface Media extends Document {
   readonly link: string;
   readonly recordingId: number;
   readonly description: string;
+  readonly type: string;
+  readonly createdAt?: Date;
   readonly response: any;
 }
 
@@ -13,6 +15,8 @@ export class MediaDto {
   readonly link: string;
   readonly recordingId: number;
   readonly description: string;
+  readonly type: string;
+  readonly createdAt?: Date;
   // the full response
   readonly response: any;
 }

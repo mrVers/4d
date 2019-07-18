@@ -23,7 +23,28 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async GET({ commit }) {
     try {
+      commit('setEpisodes', []);
       const episodes = await (this as any).$axios.$get(`http://localhost:3001/media`);
+      commit('setEpisodes', episodes);
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  async GET_DOCS({ commit }) {
+    try {
+      commit('setEpisodes', []);
+      const episodes = await (this as any).$axios.$get(`http://localhost:3001/media/docs`);
+      commit('setEpisodes', episodes);
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  async GET_MOVIES({ commit }) {
+    try {
+      commit('setEpisodes', []);
+      const episodes = await (this as any).$axios.$get(`http://localhost:3001/media/movies`);
       commit('setEpisodes', episodes);
     } catch (e) {
       console.log(e);

@@ -17,10 +17,15 @@ export default class extends Vue { }
 <style scoped lang="scss">
 .skeleton {
   margin-bottom: 24px;
-  margin-right: 4px;
+  width: 100%;
+
+  @media (min-width: 448px) {
+    width: 210px;
+    margin-right: 4px;
+  }
 
   .skeleton-thumbnail {
-    width: 210px;
+    width: 100%;
     height: 118px;
     background-color: #1d1d1d;
   }

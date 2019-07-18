@@ -6,5 +6,7 @@ export const MediaSchema = new mongoose.Schema({
   link: String,
   recordingId: Number,
   description: String,
+  type: String,
+  createdAt: { type: Date, default: Date.now },
   response: Mixed
 });

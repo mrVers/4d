@@ -10,10 +10,10 @@
         :episode="episode">
       </Card>
       <template v-if="!episodes.length">
-        <SkeletonCard v-for="skeleton of Array(10)" :key="skeleton"></SkeletonCard>
+        <SkeletonCard v-for="skeleton of Array(sectionLimit)" :key="skeleton"></SkeletonCard>
       </template>
     </div>
-    <div class="show-more">
+    <div class="show-more" v-if="sectionLimit <=20">
       <button class="show-more-btn" @click="showToggle()">Pokaži {{ sectionLimit === 20 ? 'manj' : 'več' }}</button>
     </div>
   </section>
@@ -34,8 +34,7 @@ import SkeletonCard from '~/components/SkeletonCard.vue';
 export default class extends Vue {
   @Prop() episodes?: Media[];
   @Prop() sectionTitle;
-
-  sectionLimit = 10;
+  @Prop() sectionLimit;
 
   limitEpisodes(episodes, length = 10) {
     if (!!episodes) {

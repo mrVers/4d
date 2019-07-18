@@ -16,7 +16,17 @@ export class MediaController {
     return this.mediaService.findAll();
   }
 
-  @Get('rtv')
+  @Get('docs')
+  async getDocs(): Promise<MediaDto[]> {
+    return this.mediaService.getDocs();
+  }
+
+  @Get('movies')
+  async getMovies(): Promise<MediaDto[]> {
+    return this.mediaService.getMovies();
+  }
+
+  @Get('getShows')
   async getNewShows(): Promise<any> {
 
     const allShows = await this.rtvService.getAllShows();
@@ -47,6 +57,7 @@ export class MediaController {
               link: episode.streamers.http + episode.filename,
               recordingId: res.id,
               description: res.description,
+              type: 'DOCUMENTARY',
               response: res
             };
 
@@ -91,5 +102,78 @@ export class MediaController {
   @Get('find/:id')
   async findShowById(@Param('id') id: string): Promise<MediaDto[]> {
     return this.mediaService.findOne(id);
+  }
+
+  private selectMovies(data: any): any[] {
+    const movies = [];
+
+    data.recordings.forEach(recording => {
+      // search for foreign movies
+      if (recording.stub === 'tuji-filmi') {
+        movies.push({
+          title: recording.title,
+          id: recording.id
+        });
+      }
+    });
+
+    return movies;
+
+  }
+
+  @Get('update')
+  async update(): Promise<MediaDto[]> {
+    return this.mediaService.updateAll();
+  }
+
+  @Get('getMovies')
+  async getNewMovies(): Promise<any> {
+
+    const allMovies = await this.rtvService.getAllMovies();
+    const shows = this.selectMovies(allMovies);
+
+    const promises = [];
+    const episodes: any = [];
+
+    shows.forEach((show) => {
+      promises.push(
+        this.rtvService.getSingleVideo(show.id)
+          .then(res => {
+
+            // find the high bitrate video
+            let episode = res.mediaFiles.find(item => item.height === 720);
+
+            if (!episode) {
+              episode = res.mediaFiles[0];
+            }
+
+            if (!episode) {
+              console.log('No .mp4');
+              return;
+            }
+
+            const mediaData: MediaDto = {
+              title: res.title,
+              link: episode.streamers.http + episode.filename,
+              recordingId: res.id,
+              description: res.description,
+              type: 'MOVIE',
+              response: res
+            };
+
+            // push to episodes array
+            episodes.push(mediaData);
+            // save to db
+            this.mediaService.create(mediaData);
+
+          })
+          .catch((error) => {
+            console.log('Error: ', error);
+            // todo: log errors to file : show.id, error
+          }),
+      );
+    });
+
+    return Promise.all(promises).then(() => episodes);
   }
 }

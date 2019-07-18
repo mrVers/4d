@@ -87,9 +87,8 @@ export default class HelloWorld extends Vue {
   }
 
   .video-main {
-    padding: 24px;
     max-width: 1070px;
-    margin-bottom: 24px;
+    margin: 24px 0;
   }
 
   .video-section {

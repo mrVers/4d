@@ -26,4 +26,35 @@ export class MediaService {
     id = Number(id);
     return await this.mediaModel.find({ 'response.id': id });
   }
+
+  async updateAll() {
+    return await this.mediaModel.find({type: undefined})
+      .then((docs) => {
+        if (docs === undefined || docs.length === 0) {
+          return [];
+        } else {
+          docs.forEach((doc) => {
+            this.mediaModel.findOneAndUpdate({_id: doc._id},
+              { $set: {
+                type: 'DOCUMENTARY',
+                  createdAt: new Date(doc.response.broadcastDate)
+              }})
+              .exec();
+          });
+          console.log('updated');
+        }
+      });
+  }
+
+  async getDocs(): Promise<Media[]> {
+    return await this.mediaModel.find({type: 'DOCUMENTARY'}).sort({ createdAt: -1 });
+  }
+
+  async getDocs2(): Promise<Media[]> {
+    return await this.mediaModel.find({type: 'DOCUMENTARY'}).sort({ createdAt: -1 }).limit(20);
+  }
+
+  async getMovies(): Promise<Media[]> {
+    return await this.mediaModel.find({type: 'MOVIE'}).sort({ createdAt: -1 });
+  }
 }

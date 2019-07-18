@@ -7,8 +7,8 @@
         </nuxt-link>
       </h1>
       <div class="nav-items">
-        <nuxt-link class="nav-link" to="/">Dokumentarci</nuxt-link>
-        <nuxt-link class="nav-link" to="/">Filmi</nuxt-link>
+        <nuxt-link class="nav-link" to="/shows">Dokumentarci</nuxt-link>
+        <nuxt-link class="nav-link" to="/movies">Filmi</nuxt-link>
         <nuxt-link class="nav-link" to="/">Poišči</nuxt-link>
         <a class="nav-link" href="https://4d.rtvslo.si/" target="_blank" rel="noreferrer nofollow">
           <span>RTV 4D</span>
