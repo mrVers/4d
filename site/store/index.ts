@@ -1,30 +1,25 @@
 import { Media, RootState } from '~/types';
 import { MutationTree, ActionTree } from 'vuex';
 
+const API = `${process.env.API_URL}:${process.env.API_PORT}`;
+
 export const state = (): RootState => ({
   episodes: []
 });
 
 export const mutations: MutationTree<RootState> = {
+  // tslint:disable-next-line:no-shadowed-variable
   setEpisodes(state: RootState, episodes: Media[]): void {
     state.episodes = episodes;
   }
 };
 
 export const actions: ActionTree<RootState, RootState> = {
-  // async nuxtServerInit({ commit }, context) {
-  //   let people: Person[] = [];
-  //
-  //   // If you serve the site statically with `nuxt generate`, you can't use HTTP requests for local
-  //   people = await context.app.$axios.$get('./random-data.json');
-  //
-  //   commit('setPeople', people.slice(0, 10));
-  // }
 
   async GET({ commit }) {
     try {
       commit('setEpisodes', []);
-      const episodes = await (this as any).$axios.$get(`http://localhost:3001/media`);
+      const episodes = await this.$axios.$get(`${API}/media`);
       commit('setEpisodes', episodes);
     } catch (e) {
       console.log(e);
@@ -34,7 +29,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async GET_DOCS({ commit }) {
     try {
       commit('setEpisodes', []);
-      const episodes = await (this as any).$axios.$get(`http://localhost:3001/media/docs`);
+      const episodes = await this.$axios.$get(`${API}/media/docs`);
       commit('setEpisodes', episodes);
     } catch (e) {
       console.log(e);
@@ -44,7 +39,7 @@ export const actions: ActionTree<RootState, RootState> = {
   async GET_MOVIES({ commit }) {
     try {
       commit('setEpisodes', []);
-      const episodes = await (this as any).$axios.$get(`http://localhost:3001/media/movies`);
+      const episodes = await this.$axios.$get(`${API}/media/movies`);
       commit('setEpisodes', episodes);
     } catch (e) {
       console.log(e);

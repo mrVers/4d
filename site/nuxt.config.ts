@@ -17,6 +17,7 @@ export default {
   build: {},
   modules: [
     '@nuxtjs/axios',
+    ['@nuxtjs/dotenv', { path: '../' }],
   ],
   axios: {},
   plugins: ['~/plugins/vue2-filters.ts']

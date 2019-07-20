@@ -57,6 +57,7 @@ export class MediaController {
               link: episode.streamers.http + episode.filename,
               recordingId: res.id,
               description: res.description,
+              createdAt: new Date(res.broadcastDate),
               type: 'DOCUMENTARY',
               response: res
             };
@@ -157,6 +158,7 @@ export class MediaController {
               link: episode.streamers.http + episode.filename,
               recordingId: res.id,
               description: res.description,
+              createdAt: new Date(res.broadcastDate),
               type: 'MOVIE',
               response: res
             };

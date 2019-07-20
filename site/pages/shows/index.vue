@@ -24,7 +24,7 @@ export default class extends Vue {
   @State episodes?: any;
 
   async mounted() {
-    await (this as any).$store.dispatch('GET_DOCS');
+    await this.$store.dispatch('GET_DOCS');
   }
 }
 </script>
