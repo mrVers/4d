@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="content">
-      <FrontSection :episodes="episodes" :sectionTitle="'Filmi'" :sectionLimit="100"></FrontSection>
+      <FrontSection :episodes="movies" :sectionTitle="'Filmi'" :sectionLimit="100"></FrontSection>
     </div>
   </div>
 </template>
@@ -12,6 +12,7 @@ import { State } from "vuex-class"
 import Card from "~/components/Card.vue"
 import Header from '~/components/Header.vue';
   import FrontSection from '~/components/FrontSection.vue';
+  import { Media } from '~/types';
 
 @Component({
   components: {
@@ -21,7 +22,7 @@ import Header from '~/components/Header.vue';
   }
 })
 export default class extends Vue {
-  @State episodes?: any;
+  @State movies?: Media[];
 
   async mounted() {
     await this.$store.dispatch('GET_MOVIES');

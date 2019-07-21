@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { Media, MediaDto } from './schema/media.model';
+import { FrontMedia, Media, MediaDto } from './schema/media.model';
 
 @Injectable()
 export class MediaService {
@@ -10,21 +10,24 @@ export class MediaService {
 
   async create(createMedia: MediaDto): Promise<Media> {
 
-    const episodes = await this.mediaModel.find({ recordingId: createMedia.recordingId });
+    const episode = await this.mediaModel.findOne({ recordingId: createMedia.recordingId });
 
-    if (!episodes.length) {
+    if (!episode) {
       const createdMedia = new this.mediaModel(createMedia);
       return await createdMedia.save();
     }
   }
 
-  async findAll(): Promise<Media[]> {
-    return await this.mediaModel.find();
+  async getAll(): Promise<FrontMedia> {
+    return {
+      shows: await this.mediaModel.find({type: 'DOCUMENTARY'}).sort({ createdAt: -1 }).limit(20),
+      movies: await this.mediaModel.find({type: 'MOVIE'}).sort({ createdAt: -1 }).limit(20),
+    };
   }
 
-  async findOne(id: any): Promise<Media[]> {
+  async findOne(id: any): Promise<Media> {
     id = Number(id);
-    return await this.mediaModel.find({ 'response.id': id });
+    return await this.mediaModel.findOne({ 'response.id': id });
   }
 
   async updateAll() {
@@ -48,10 +51,6 @@ export class MediaService {
 
   async getDocs(): Promise<Media[]> {
     return await this.mediaModel.find({type: 'DOCUMENTARY'}).sort({ createdAt: -1 });
-  }
-
-  async getDocs2(): Promise<Media[]> {
-    return await this.mediaModel.find({type: 'DOCUMENTARY'}).sort({ createdAt: -1 }).limit(20);
   }
 
   async getMovies(): Promise<Media[]> {

@@ -20,3 +20,8 @@ export class MediaDto {
   // the full response
   readonly response: any;
 }
+
+export interface FrontMedia  {
+  shows: Media[];
+  movies: Media[];
+}

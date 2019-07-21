@@ -1,18 +1,19 @@
 <template>
   <div>
     <div class="content">
-      <FrontSection :episodes="episodes" :sectionTitle="'Najnovejši dokumentarci'" :sectionLimit="10"></FrontSection>
-      <FrontSection :episodes="episodes" :sectionTitle="'Najnovejši filmi'" :sectionLimit="10"></FrontSection>
+      <FrontSection :episodes="shows" :sectionTitle="'Najnovejši dokumentarci'" :limitLength="true"></FrontSection>
+      <FrontSection :episodes="movies" :sectionTitle="'Najnovejši filmi'" :limitLength="true"></FrontSection>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'nuxt-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator';
 import { State } from "vuex-class"
 import Card from "~/components/Card.vue"
 import Header from '~/components/Header.vue';
-  import FrontSection from '~/components/FrontSection.vue';
+import FrontSection from '~/components/FrontSection.vue';
+import { Media } from '~/types';
 
 
 @Component({
@@ -23,7 +24,8 @@ import Header from '~/components/Header.vue';
   }
 })
 export default class extends Vue {
-  @State episodes?: any;
+  @State movies?: Media[];
+  @State shows?: Media[];
 
   async mounted() {
     await this.$store.dispatch('GET');

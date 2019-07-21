@@ -11,7 +11,7 @@
 import { Component, Vue } from 'nuxt-property-decorator';
 
 @Component({})
-export default class extends Vue { }
+export default class SkeletonCard extends Vue { }
 </script>
 
 <style scoped lang="scss">

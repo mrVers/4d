@@ -43,28 +43,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { State } from '~/node_modules/vuex-class';
+import { Component, Vue } from 'vue-property-decorator';
+import { Media } from '~/types';
 
 @Component({})
-export default class HelloWorld extends Vue {
-  @Prop() src;
-  @Prop() slug;
-  @State episodes?: any;
+export default class SingleEpisode extends Vue {
+
+  episode: Media | any = null;
 
   async mounted() {
-    if (!!this.episodes && !this.episodes.length) {
-      await this.$store.dispatch('GET');
+    this.episode = this.$store.getters.getShowById(this.id);
+    if (!this.episode) {
+      this.episode = await this.$store.dispatch('GET_ID', this.id);
     }
   }
 
-  get id() {
+  get id(): number {
     return Number(this.$route.params['id'])
   }
 
-  get episode() {
-    return this.episodes.find(e => e.recordingId === this.id);
-  }
 }
 </script>
 
@@ -89,6 +86,7 @@ export default class HelloWorld extends Vue {
   .video-main {
     max-width: 1070px;
     margin: 24px 0;
+    padding: 0 20px;
   }
 
   .video-section {

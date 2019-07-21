@@ -5,16 +5,16 @@
     </div>
     <div class="media-container">
       <Card
-        v-for="episode in limitEpisodes(episodes, sectionLimit)"
+        v-for="episode in limitEpisodes(episodes, episodeLimit)"
         :key="episode.recordingId"
         :episode="episode">
       </Card>
       <template v-if="!episodes.length">
-        <SkeletonCard v-for="skeleton of Array(sectionLimit)" :key="skeleton"></SkeletonCard>
+        <SkeletonCard v-for="skeleton of Array(episodeLimit)" :key="skeleton"></SkeletonCard>
       </template>
     </div>
-    <div class="show-more" v-if="sectionLimit <=20">
-      <button class="show-more-btn" @click="showToggle()">Pokaži {{ sectionLimit === 20 ? 'manj' : 'več' }}</button>
+    <div class="show-more" v-if="limitLength">
+      <button class="show-more-btn" @click="showMore()">Pokaži {{ isShowMore ? 'več' : 'manj' }}</button>
     </div>
   </section>
 </template>
@@ -31,25 +31,32 @@ import SkeletonCard from '~/components/SkeletonCard.vue';
     SkeletonCard
   }
 })
-export default class extends Vue {
+export default class FrontSection extends Vue {
   @Prop() episodes?: Media[];
-  @Prop() sectionTitle;
-  @Prop() sectionLimit;
+  @Prop() sectionTitle: string;
+  @Prop() limitLength: boolean;
 
-  limitEpisodes(episodes, length = 10) {
+  isShowMore = true;
+
+  limitEpisodes(episodes, length = 10): Media[] {
     if (!!episodes) {
       return episodes.slice(0, length);
     }
+    return [];
   }
 
-  showToggle() {
-    this.sectionLimit = this.sectionLimit === 20 ? 10 : 20;
+  showMore() {
+    this.isShowMore = !this.isShowMore;
   }
+
+  get episodeLimit() {
+    return this.limitLength ? this.isShowMore ? 10 : 20 : 100;
+  }
+
 }
 </script>
 
 <style scoped lang="scss">
-
   .section {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   }

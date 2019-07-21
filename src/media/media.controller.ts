@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { MediaService } from './media.service';
 import { RtvService } from './rtv.service';
-import { MediaDto } from './schema/media.model';
+import { FrontMedia, MediaDto } from './schema/media.model';
 
 @Controller('media')
 export class MediaController {
@@ -12,8 +12,8 @@ export class MediaController {
   }
 
   @Get()
-  async findAll(): Promise<MediaDto[]> {
-    return this.mediaService.findAll();
+  async findAll(): Promise<FrontMedia> {
+    return this.mediaService.getAll();
   }
 
   @Get('docs')
@@ -101,7 +101,7 @@ export class MediaController {
   }
 
   @Get('find/:id')
-  async findShowById(@Param('id') id: string): Promise<MediaDto[]> {
+  async findShowById(@Param('id') id: string): Promise<MediaDto> {
     return this.mediaService.findOne(id);
   }
 
@@ -150,6 +150,7 @@ export class MediaController {
 
             if (!episode) {
               console.log('No .mp4');
+              console.log('Recording ID: ', show.id);
               return;
             }
 

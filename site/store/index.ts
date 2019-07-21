@@ -1,26 +1,39 @@
-import { Media, RootState } from '~/types';
-import { MutationTree, ActionTree } from 'vuex';
+import { FrontMedia, Media, RootState } from '~/types';
+import { MutationTree, ActionTree, GetterTree } from 'vuex';
 
 const API = `${process.env.API_URL}:${process.env.API_PORT}`;
 
 export const state = (): RootState => ({
-  episodes: []
+  movies: [],
+  shows: []
 });
 
 export const mutations: MutationTree<RootState> = {
-  // tslint:disable-next-line:no-shadowed-variable
-  setEpisodes(state: RootState, episodes: Media[]): void {
-    state.episodes = episodes;
+  setMovies(rootState: RootState, movies: Media[]): void {
+    rootState.movies = movies;
+  },
+
+  setShows(rootState: RootState, shows: Media[]): void {
+    rootState.shows = shows;
+  },
+
+  setAll(rootState: RootState, episodes: FrontMedia): void {
+    rootState.movies = episodes.movies;
+    rootState.shows = episodes.shows;
+  },
+
+  resetState(rootState: RootState): void {
+    rootState.movies = [];
+    rootState.shows = [];
   }
 };
 
-export const actions: ActionTree<RootState, RootState> = {
+export const actions: ActionTree<RootState, any> = {
 
   async GET({ commit }) {
     try {
-      commit('setEpisodes', []);
       const episodes = await this.$axios.$get(`${API}/media`);
-      commit('setEpisodes', episodes);
+      commit('setAll', episodes);
     } catch (e) {
       console.log(e);
     }
@@ -28,9 +41,8 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async GET_DOCS({ commit }) {
     try {
-      commit('setEpisodes', []);
       const episodes = await this.$axios.$get(`${API}/media/docs`);
-      commit('setEpisodes', episodes);
+      commit('setShows', episodes);
     } catch (e) {
       console.log(e);
     }
@@ -38,12 +50,27 @@ export const actions: ActionTree<RootState, RootState> = {
 
   async GET_MOVIES({ commit }) {
     try {
-      commit('setEpisodes', []);
       const episodes = await this.$axios.$get(`${API}/media/movies`);
-      commit('setEpisodes', episodes);
+      commit('setMovies', episodes);
     } catch (e) {
       console.log(e);
     }
+  },
+
+  async GET_ID(_, id) {
+    try {
+      return await this.$axios.$get(`${API}/media/find/${id}`);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+};
+
+export const getters: GetterTree<RootState, any> = {
+
+  getShowById: (rootState: RootState) => (id: number) => {
+    return rootState.shows.concat(rootState.movies).find(show => show.recordingId === id);
   }
 
 };
