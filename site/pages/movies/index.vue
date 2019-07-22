@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="content">
-      <FrontSection :episodes="movies" :sectionTitle="'Filmi'" :sectionLimit="100"></FrontSection>
+      <FrontSection :episodes="movies" :sectionTitle="'Filmi'" :limitLength="false"></FrontSection>
     </div>
   </div>
 </template>
@@ -31,24 +31,5 @@ export default class extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .content {
-    flex: none;
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    width: 428px;
 
-    @media (min-width: 662px) {
-      width: 664px;
-    }
-
-    @media (min-width: 876px) {
-      width: 856px;
-    }
-
-    @media (min-width: 1090px) {
-      width: 1070px;
-    }
-  }
 </style>

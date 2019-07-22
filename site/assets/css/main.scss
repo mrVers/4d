@@ -16,6 +16,35 @@ body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: 74px;
+
+  @media (min-width: 448px) {
+    margin-top: 50px;
+  }
 }
 
+.content {
+  flex: none;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding: 0 24px;
+
+  @media (min-width: 448px) {
+    width: 428px;
+    padding: 0;
+  }
+
+  @media (min-width: 662px) {
+    width: 664px;
+  }
+
+  @media (min-width: 876px) {
+    width: 856px;
+  }
+
+  @media (min-width: 1090px) {
+    width: 1070px;
+  }
+}

@@ -95,7 +95,6 @@ export default class SingleEpisode extends Vue {
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-
   }
 
   .meta {

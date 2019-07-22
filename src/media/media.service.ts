@@ -20,8 +20,8 @@ export class MediaService {
 
   async getAll(): Promise<FrontMedia> {
     return {
-      shows: await this.mediaModel.find({type: 'DOCUMENTARY'}).sort({ createdAt: -1 }).limit(20),
-      movies: await this.mediaModel.find({type: 'MOVIE'}).sort({ createdAt: -1 }).limit(20),
+      shows: await this.mediaModel.find({ type: 'DOCUMENTARY' }).sort({ createdAt: -1 }).limit(20),
+      movies: await this.mediaModel.find({ type: 'MOVIE' }).sort({ createdAt: -1 }).limit(20),
     };
   }
 
@@ -31,17 +31,19 @@ export class MediaService {
   }
 
   async updateAll() {
-    return await this.mediaModel.find({type: undefined})
+    return await this.mediaModel.find({ type: undefined })
       .then((docs) => {
         if (docs === undefined || docs.length === 0) {
           return [];
         } else {
           docs.forEach((doc) => {
-            this.mediaModel.findOneAndUpdate({_id: doc._id},
-              { $set: {
-                type: 'DOCUMENTARY',
+            this.mediaModel.findOneAndUpdate({ _id: doc._id },
+              {
+                $set: {
+                  type: 'DOCUMENTARY',
                   createdAt: new Date(doc.response.broadcastDate)
-              }})
+                }
+              })
               .exec();
           });
           console.log('updated');
@@ -50,10 +52,19 @@ export class MediaService {
   }
 
   async getDocs(): Promise<Media[]> {
-    return await this.mediaModel.find({type: 'DOCUMENTARY'}).sort({ createdAt: -1 });
+    return await this.mediaModel.find({ type: 'DOCUMENTARY' }).sort({ createdAt: -1 });
   }
 
   async getMovies(): Promise<Media[]> {
-    return await this.mediaModel.find({type: 'MOVIE'}).sort({ createdAt: -1 });
+    return await this.mediaModel.find({ type: 'MOVIE' }).sort({ createdAt: -1 });
+  }
+
+  async search(query: string): Promise<Media[]> {
+    return await this.mediaModel.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { description: { $regex: query, $options: 'i' } }
+      ]
+    });
   }
 }

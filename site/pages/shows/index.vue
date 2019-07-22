@@ -1,18 +1,18 @@
 <template>
   <div>
     <div class="content">
-      <FrontSection :episodes="shows" :sectionTitle="'Dokumentarci'" :sectionLimit="100"></FrontSection>
+      <FrontSection :episodes="shows" :sectionTitle="'Dokumentarci'" :limitLength="false"></FrontSection>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'nuxt-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator';
 import { State } from "vuex-class"
 import Card from "~/components/Card.vue"
 import Header from '~/components/Header.vue';
-  import FrontSection from '~/components/FrontSection.vue';
-  import { Media } from '~/types';
+import FrontSection from '~/components/FrontSection.vue';
+import { Media } from '~/types';
 
 @Component({
   components: {
@@ -31,24 +31,5 @@ export default class extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .content {
-    flex: none;
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    width: 428px;
 
-    @media (min-width: 662px) {
-      width: 664px;
-    }
-
-    @media (min-width: 876px) {
-      width: 856px;
-    }
-
-    @media (min-width: 1090px) {
-      width: 1070px;
-    }
-  }
 </style>

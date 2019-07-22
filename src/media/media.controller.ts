@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { MediaService } from './media.service';
 import { RtvService } from './rtv.service';
 import { FrontMedia, MediaDto } from './schema/media.model';
@@ -179,4 +179,10 @@ export class MediaController {
 
     return Promise.all(promises).then(() => episodes);
   }
+
+  @Post('search')
+  async searchQuery(@Body() query: { search: string }): Promise<MediaDto[]> {
+    return this.mediaService.search(query.search);
+  }
+
 }

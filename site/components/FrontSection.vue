@@ -33,8 +33,8 @@ import SkeletonCard from '~/components/SkeletonCard.vue';
 })
 export default class FrontSection extends Vue {
   @Prop() episodes?: Media[];
-  @Prop() sectionTitle: string;
-  @Prop() limitLength: boolean;
+  @Prop() sectionTitle?: string;
+  @Prop() limitLength?: boolean;
 
   isShowMore = true;
 
@@ -79,28 +79,6 @@ export default class FrontSection extends Vue {
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 24px;
-  }
-
-  .content {
-    flex: none;
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    width: 428px;
-
-    @media (min-width: 662px) {
-      width: 664px;
-    }
-
-    @media (min-width: 876px) {
-      width: 856px;
-    }
-
-    @media (min-width: 1090px) {
-      width: 1070px;
-    }
-
   }
 
   .show-more {

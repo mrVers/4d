@@ -5,7 +5,9 @@ const API = `${process.env.API_URL}:${process.env.API_PORT}`;
 
 export const state = (): RootState => ({
   movies: [],
-  shows: []
+  shows: [],
+  searchResults: [],
+  isSearching: false
 });
 
 export const mutations: MutationTree<RootState> = {
@@ -22,9 +24,16 @@ export const mutations: MutationTree<RootState> = {
     rootState.shows = episodes.shows;
   },
 
-  resetState(rootState: RootState): void {
-    rootState.movies = [];
-    rootState.shows = [];
+  resetSearch(rootState: RootState): void {
+    rootState.searchResults = [];
+  },
+
+  setSearch(rootState: RootState, results: Media[]): void {
+    rootState.searchResults = results;
+  },
+
+  setIsSearching(rootState: RootState, isSearching: boolean): void {
+    rootState.isSearching = isSearching;
   }
 };
 
@@ -63,7 +72,22 @@ export const actions: ActionTree<RootState, any> = {
     } catch (e) {
       console.log(e);
     }
-  }
+  },
+
+  async RESET_SEARCH({ commit }) {
+    commit('resetSearch');
+  },
+
+  async SEARCH({ commit }, query) {
+    try {
+      commit('setIsSearching', true);
+      const results = await this.$axios.$post(`${API}/media/search`, query);
+      commit('setSearch', results);
+      commit('setIsSearching', false);
+    } catch (e) {
+      console.log(e);
+    }
+  },
 
 };
 
