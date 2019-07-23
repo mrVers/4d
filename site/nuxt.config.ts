@@ -5,10 +5,11 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Zbirka dokumentarnih filmov za prijatelje.' }
+      { hid: 'description', name: 'description', content: 'Zbirka dokumentarnih filmov in koprodukcija za prijatelje.' },
+      { name: 'robots', content: 'noindex, nofollow' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Space+Mono:400,700&display=swap&subset=latin-ext' }
     ]
   },
@@ -19,6 +20,5 @@ export default {
     '@nuxtjs/axios',
     ['@nuxtjs/dotenv', { path: '../' }],
   ],
-  axios: {},
-  plugins: ['~/plugins/vue2-filters.ts']
+  axios: {}
 };

@@ -2,7 +2,7 @@
   <div class="card">
     <div class="thumbnail">
       <nuxt-link class="thumb-link" :to="{ name: 'media-id', params: { id: episode.recordingId } }">
-        <img class="img" :src="episode.response.images.wide1" :title="episode.description" />
+        <img class="img" :src="episode.response.images.wide1.replace('http:', '')" :title="episode.description" />
         <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M128 104.3v303.4c0 6.4 6.5 10.4 11.7 7.2l240.5-151.7c5.1-3.2 5.1-11.1 0-14.3L139.7 97.2c-5.2-3.3-11.7.7-11.7 7.1z"/></svg>
         <div class="length">{{ secondsToHms(episode.response.duration) }}</div>
       </nuxt-link>
@@ -84,7 +84,7 @@ export default class Card extends Vue {
     position: relative;
 
     .thumb-link {
-      display: flex;
+      display: block;
     }
 
     .icon {
@@ -97,7 +97,7 @@ export default class Card extends Vue {
       width: 80px;
       display: flex;
       margin: 0 auto;
-      height: 115px;
+      height: 100%;
       top: 0;
       pointer-events: none;
     }

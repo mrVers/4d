@@ -9,7 +9,7 @@
         :key="episode.recordingId"
         :episode="episode">
       </Card>
-      <template v-if="!episodes.length">
+      <template v-if="episodes && !episodes.length">
         <SkeletonCard v-for="skeleton of Array(episodeLimit)" :key="skeleton"></SkeletonCard>
       </template>
     </div>

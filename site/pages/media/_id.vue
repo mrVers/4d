@@ -8,7 +8,7 @@
           width="100%"
           ref="mainVideo"
           controls
-          :poster="episode.response.images.orig"
+          :poster="episode.response.images.orig.replace('http:', '')"
           :key="episode.link">
           <source :src="episode.link" type="video/mp4">
           Your browser does not support HTML5 video :'(

@@ -13,7 +13,7 @@
 $ npm install
 $ cp example.env .env
 
-# In /site folder
+# In site/ folder
 $ npm install
 ```
 Edit ".env" file for your setup.
@@ -32,7 +32,7 @@ $ npm run build
 $ npm run start:prod
 ```
 
-## Running the APP (/site folder)
+## Running the APP (site/ folder)
 
 ``` bash
 # serve with hot reload at localhost:3000
