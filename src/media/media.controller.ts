@@ -32,50 +32,38 @@ export class MediaController {
     const allShows = await this.rtvService.getAllShows();
     const shows = this.selectShows(allShows);
 
-    const promises = [];
-    const episodes: any = [];
+    this.searchAndSaveSingeShow(shows, 'DOCUMENTARY');
 
-    shows.forEach((show) => {
-      promises.push(
-        this.rtvService.getSingleVideo(show.id)
-          .then(res => {
+  }
 
-            // find the high bitrate video
-            let episode = res.mediaFiles.find(item => item.height === 720);
+  @Get('rtv/:id')
+  async getShowById(@Param('id') id: string): Promise<any> {
+    return await this.rtvService.getSingleVideo(id);
+  }
 
-            if (!episode) {
-              episode = res.mediaFiles[0];
-            }
+  @Get('find/:id')
+  async findShowById(@Param('id') id: string): Promise<MediaDto> {
+    return this.mediaService.findOne(id);
+  }
 
-            if (!episode) {
-              console.log('No .mp4');
-              return;
-            }
+  @Get('update')
+  async update(): Promise<MediaDto[]> {
+    return this.mediaService.updateAll();
+  }
 
-            const mediaData: MediaDto = {
-              title: res.title,
-              link: episode.streamers.http + episode.filename,
-              recordingId: res.id,
-              description: res.description,
-              createdAt: new Date(res.broadcastDate),
-              type: 'DOCUMENTARY',
-              response: res
-            };
+  @Get('getMovies')
+  async getNewMovies(): Promise<any> {
 
-            // push to episodes array
-            episodes.push(mediaData);
-            // save to db
-            this.mediaService.create(mediaData);
+    const allMovies = await this.rtvService.getAllMovies();
+    const shows = this.selectMovies(allMovies);
 
-          })
-          .catch((error) => {
-            console.log('Error: ', error);
-            // todo: log errors to file : show.id, error
-          }),
-      );
-    });
+    this.searchAndSaveSingeShow(shows, 'MOVIE');
 
-    return Promise.all(promises).then(() => episodes);
+  }
+
+  @Post('search')
+  async searchQuery(@Body() query: { search: string }): Promise<MediaDto[]> {
+    return this.mediaService.search(query.search);
   }
 
   private selectShows(data: any): any[] {
@@ -95,16 +83,6 @@ export class MediaController {
 
   }
 
-  @Get('rtv/:id')
-  async getShowById(@Param('id') id: string): Promise<any> {
-    return await this.rtvService.getSingleVideo(id);
-  }
-
-  @Get('find/:id')
-  async findShowById(@Param('id') id: string): Promise<MediaDto> {
-    return this.mediaService.findOne(id);
-  }
-
   private selectMovies(data: any): any[] {
     const movies = [];
 
@@ -122,22 +100,12 @@ export class MediaController {
 
   }
 
-  @Get('update')
-  async update(): Promise<MediaDto[]> {
-    return this.mediaService.updateAll();
-  }
+  private async searchAndSaveSingeShow(shows, showType: 'MOVIE' | 'DOCUMENTARY') {
 
-  @Get('getMovies')
-  async getNewMovies(): Promise<any> {
+    // setting random delay on each request
+    const delayedRequest = (show) => {
+      return new Promise((resolve, reject) => setTimeout(() => {
 
-    const allMovies = await this.rtvService.getAllMovies();
-    const shows = this.selectMovies(allMovies);
-
-    const promises = [];
-    const episodes: any = [];
-
-    shows.forEach((show) => {
-      promises.push(
         this.rtvService.getSingleVideo(show.id)
           .then(res => {
 
@@ -160,29 +128,27 @@ export class MediaController {
               recordingId: res.id,
               description: res.description,
               createdAt: new Date(res.broadcastDate),
-              type: 'MOVIE',
+              type: showType,
               response: res
             };
 
-            // push to episodes array
-            episodes.push(mediaData);
             // save to db
             this.mediaService.create(mediaData);
+            resolve();
 
           })
           .catch((error) => {
             console.log('Error: ', error);
-            // todo: log errors to file : show.id, error
-          }),
-      );
-    });
+            console.log('RecordingID: ', show.id);
+            reject();
+          });
 
-    return Promise.all(promises).then(() => episodes);
-  }
+      }, Math.random() * 10000));
+    };
 
-  @Post('search')
-  async searchQuery(@Body() query: { search: string }): Promise<MediaDto[]> {
-    return this.mediaService.search(query.search);
+    for (const show of shows) {
+      await delayedRequest(show);
+    }
   }
 
 }
