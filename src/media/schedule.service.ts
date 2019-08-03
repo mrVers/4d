@@ -1,25 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { Cron, Interval, Timeout, NestSchedule } from 'nest-schedule';
+import { Cron, Timeout, NestSchedule } from 'nest-schedule';
+import { MediaService } from './media.service';
 
 @Injectable()
 export class ScheduleService extends NestSchedule {
-  // @Cron('H H(0-7) * * *', {
-  //   startTime: new Date(),
-  //   endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-  // })
-  // async cronJob() {
-  //   console.log('executing cron job');
-  // }
-  //
-  // @Timeout(5000)
-  // onceJob() {
-  //   console.log('executing once job');
-  // }
-  //
-  // @Interval(2000)
-  // intervalJob() {
-  //   console.log('executing interval job');
-  //   // if you want to cancel the job, you should return true;
-  //   return true;
-  // }
+
+  constructor(private readonly mediaService: MediaService) {
+    super();
+  }
+
+  // run a daily cron at random time between 7-10am
+  @Cron('H H(7-10) * * *')
+  async dailyCron() {
+    return this.fetchAllShows();
+  }
+
+  // run just once when the api starts
+  @Timeout(5000)
+  firstRun() {
+    return this.fetchAllShows();
+  }
+
+  private async fetchAllShows() {
+    console.log('Fetching shows: ' + new Date());
+    await this.mediaService.fetchNewShows();
+    await this.mediaService.fetchNewMovies();
+  }
 }
