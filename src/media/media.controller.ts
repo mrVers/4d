@@ -26,16 +26,6 @@ export class MediaController {
     return this.mediaService.getMovies();
   }
 
-  @Get('getShows')
-  async getNewShows(): Promise<any> {
-
-    const allShows = await this.rtvService.getAllShows();
-    const shows = this.selectShows(allShows);
-
-    this.searchAndSaveSingeShow(shows, 'DOCUMENTARY');
-
-  }
-
   @Get('rtv/:id')
   async getShowById(@Param('id') id: string): Promise<any> {
     return await this.rtvService.getSingleVideo(id);
@@ -46,9 +36,15 @@ export class MediaController {
     return this.mediaService.findOne(id);
   }
 
-  @Get('update')
-  async update(): Promise<MediaDto[]> {
-    return this.mediaService.updateAll();
+  @Get('getShows')
+  async getNewShows(): Promise<any> {
+
+    const allShows = await this.rtvService.getAllShows();
+    const shows = this.selectShows(allShows);
+
+    await this.searchAndSaveSingeShow(shows, 'DOCUMENTARY');
+    return 'Fetched and saved.';
+
   }
 
   @Get('getMovies')
@@ -57,7 +53,8 @@ export class MediaController {
     const allMovies = await this.rtvService.getAllMovies();
     const shows = this.selectMovies(allMovies);
 
-    this.searchAndSaveSingeShow(shows, 'MOVIE');
+    await this.searchAndSaveSingeShow(shows, 'MOVIE');
+    return 'Fetched and saved.';
 
   }
 
@@ -71,10 +68,13 @@ export class MediaController {
 
     data.recordings.forEach(recording => {
       // search for foreign documentaries
-      if (recording.stub === 'tuji-dokumentarni-filmi-in-oddaje' || recording.geoblocked === '1') {
+      if (recording.geoblocked === '1' && (
+        recording.stub === 'tuji-dokumentarni-filmi-in-oddaje' ||
+        recording.stub === 'dokumentarni-filmi-in-oddaje-izobrazevalni-program'
+      )) {
         shows.push({
           title: recording.title,
-          id: recording.id,
+          id: recording.id
         });
       }
     });

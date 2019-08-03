@@ -6,7 +6,8 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Zbirka dokumentarnih filmov in koprodukcija za prijatelje.' },
-      { name: 'robots', content: 'noindex, nofollow' }
+      { name: 'robots', content: 'noindex, nofollow' },
+      { name: 'referrer', content: 'no-referrer' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },

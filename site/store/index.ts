@@ -1,4 +1,4 @@
-import { FrontMedia, Media, RootState } from '~/types';
+import { FrontMedia, Media, RootState } from '../types';
 import { MutationTree, ActionTree, GetterTree } from 'vuex';
 
 const API = `${process.env.API_URL}:${process.env.API_PORT}`;
