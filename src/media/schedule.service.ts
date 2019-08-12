@@ -9,15 +9,11 @@ export class ScheduleService extends NestSchedule {
     super();
   }
 
-  // run a daily cron at random time between 7-10am
-  @Cron('H H(7-10) * * *')
+  // run a daily cron at 8:37 and instantly on first run
+  @Cron('37 8 * * *', {
+    immediate: true
+  })
   async dailyCron() {
-    return this.fetchAllShows();
-  }
-
-  // run just once when the api starts
-  @Timeout(5000)
-  firstRun() {
     return this.fetchAllShows();
   }
 
