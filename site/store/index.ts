@@ -95,6 +95,18 @@ export const getters: GetterTree<RootState, any> = {
 
   getShowById: (rootState: RootState) => (id: number) => {
     return rootState.shows.concat(rootState.movies).find(show => show.recordingId === id);
+  },
+
+  allShowsLoaded: (rootState: RootState) => () => {
+    return !!rootState.shows.length && !!rootState.movies.length;
+  },
+
+  totalShowsLoaded: (rootState: RootState) => () => {
+    return rootState.shows.length > 16;
+  },
+
+  totalMoviesLoaded: (rootState: RootState) => () => {
+    return rootState.movies.length > 16;
   }
 
 };

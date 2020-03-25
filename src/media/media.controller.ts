@@ -51,4 +51,9 @@ export class MediaController {
     return this.mediaService.search(query.search);
   }
 
+  // @Get('save/:id')
+  // async saveShowById(@Param('id') id: string): Promise<any> {
+  //   return await this.mediaService.searchAndSaveSingeShow([{ id, name: '' }], 'DOCUMENTARY');
+  // }
+
 }

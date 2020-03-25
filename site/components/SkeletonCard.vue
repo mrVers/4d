@@ -20,14 +20,40 @@ export default class SkeletonCard extends Vue { }
   width: 100%;
 
   @media (min-width: 448px) {
-    width: 210px;
-    margin-right: 4px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 36px;
+    width: calc(100% / 2 - 16px - .01px);
+  }
+
+  @media (min-width: 662px) {
+    width: calc(100% / 3 - 16px - .01px);
+  }
+
+  @media (min-width: 876px) {
+    width: calc(100% / 4 - 16px - .01px);
   }
 
   .skeleton-thumbnail {
     width: 100%;
-    height: 118px;
+    height: 150px;
     background-color: #1d1d1d;
+
+    @media (min-width: 448px) {
+      height: 111px;
+    }
+
+    @media (min-width: 662px) {
+      height: 116px;
+    }
+
+    @media (min-width: 876px) {
+      height: 111px;
+    }
+
+    @media (min-width: 1090px) {
+      height: 141px;
+    }
   }
 
   .skeleton-title {

@@ -13,10 +13,12 @@ declare module 'vue/types/vue' {
     $store: Store<any>;
     $axios: NuxtAxiosInstance;
     $route: Route;
+    $cast: any;
   }
 
   interface VueConstructor {
     $store: Store<any>;
     $router: VueRouter;
+    $cast: any;
   }
 }

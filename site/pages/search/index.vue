@@ -7,7 +7,7 @@
         </div>
         <div class="search-container">
           <form @submit="submitForm" class="search-form">
-            <input class="search-input" v-model="queryString" type="text" name="queryString" minlength="3" placeholder="Išči po naslovu">
+            <input class="search-input" v-model="queryString" ref="searchInput" type="text" name="queryString" minlength="3" placeholder="Išči po naslovu, opisu...">
             <input type="submit" hidden />
           </form>
         </div>
@@ -38,6 +38,7 @@ export default class Search extends Vue {
 
   async mounted() {
     await this.$store.dispatch('RESET_SEARCH');
+    (this.$refs.searchInput as HTMLElement).focus();
   }
 
   async submitForm(e) {

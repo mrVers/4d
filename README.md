@@ -25,7 +25,7 @@ Edit ".env" file for your setup.
 $ mongod
 
 # development
-$ npm run serve
+$ npm run start
 
 # build for production and launch server
 $ npm run build

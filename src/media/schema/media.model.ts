@@ -6,8 +6,8 @@ export interface Media extends Document {
   readonly recordingId: number;
   readonly description: string;
   readonly type: string;
-  readonly createdAt?: Date;
-  readonly response: any;
+  createdAt?: Date;
+  response: any;
 }
 
 export class MediaDto {
