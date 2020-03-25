@@ -45,8 +45,18 @@ export default class Card extends Vue {
   width: 100%;
 
   @media (min-width: 448px) {
-    width: 210px;
-    margin-right: 4px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 36px;
+    width: calc(100% / 2 - 16px - .01px);
+  }
+
+  @media (min-width: 662px) {
+    width: calc(100% / 3 - 16px - .01px);
+  }
+
+  @media (min-width: 876px) {
+    width: calc(100% / 4 - 16px - .01px);
   }
 
   &:hover {
@@ -57,7 +67,25 @@ export default class Card extends Vue {
 
   .img {
     width: 100%;
-    min-height: 118px;
+    background-color: #1d1d1d;
+    will-change: opacity;
+    animation: fadein 0.5s ease-in-out;
+
+    @media (min-width: 448px) {
+      height: 111px;
+    }
+
+    @media (min-width: 662px) {
+      height: 116px;
+    }
+
+    @media (min-width: 876px) {
+      height: 111px;
+    }
+
+    @media (min-width: 1090px) {
+      height: 141px;
+    }
   }
 
   .meta{
@@ -66,6 +94,10 @@ export default class Card extends Vue {
       color: #fff;
       text-decoration: none;
       display: block;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     h3 {
@@ -73,7 +105,6 @@ export default class Card extends Vue {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;
-      -webkit-line-clamp: 2;
       font-size: 1.4rem;
       font-weight: 700;
       line-height: 1.8rem;
@@ -114,4 +145,9 @@ export default class Card extends Vue {
     color: #fff;
     pointer-events: none;
   }
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 </style>

@@ -9,8 +9,11 @@
         :key="episode.recordingId"
         :episode="episode">
       </Card>
-      <template v-if="episodes && !episodes.length">
+      <template v-if="!episodes.length">
         <SkeletonCard v-for="skeleton of Array(episodeLimit)" :key="skeleton"></SkeletonCard>
+      </template>
+      <template v-if="episodes.length === 16 && !limitLength">
+        <SkeletonCard v-for="skeleton of Array(48)" :key="skeleton"></SkeletonCard>
       </template>
     </div>
     <div class="show-more" v-if="limitLength">
@@ -38,7 +41,7 @@ export default class FrontSection extends Vue {
 
   isShowMore = true;
 
-  limitEpisodes(episodes, length = 10): Media[] {
+  limitEpisodes(episodes, length = 8): Media[] {
     if (!!episodes) {
       return episodes.slice(0, length);
     }
@@ -50,7 +53,7 @@ export default class FrontSection extends Vue {
   }
 
   get episodeLimit() {
-    return this.limitLength ? this.isShowMore ? 10 : 20 : 100;
+    return this.limitLength ? this.isShowMore ? 8 : 16 : this.episodes && !!this.episodes.length ? this.episodes.length : 64;
   }
 
 }
@@ -88,7 +91,7 @@ export default class FrontSection extends Vue {
     background-color: transparent;
     color: #fff;
     padding: 8px 10px;
-    font-size: 14px;
+    font-size: 1.4rem;
     border: 1px solid #444;
     cursor: pointer;
     transition: border ease-in-out 0.1s;

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Cron, Timeout, NestSchedule } from 'nest-schedule';
+import { Cron, NestSchedule } from 'nest-schedule';
 import { MediaService } from './media.service';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class ScheduleService extends NestSchedule {
   }
 
   // run a daily cron at 8:37 and instantly on first run
-  @Cron('37 8 * * *', {
+  @Cron('23 8 * * *', {
     immediate: true
   })
   async dailyCron() {

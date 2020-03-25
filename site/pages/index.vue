@@ -27,7 +27,9 @@ export default class Landing extends Vue {
   @State shows?: Media[];
 
   async mounted() {
-    await this.$store.dispatch('GET');
+    if (await !this.$store.getters.allShowsLoaded()) {
+      await this.$store.dispatch('GET');
+    }
   }
 }
 </script>

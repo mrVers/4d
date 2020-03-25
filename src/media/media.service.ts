@@ -17,15 +17,22 @@ export class MediaService {
     const episode = await this.mediaModel.findOne({ recordingId: createMedia.recordingId });
 
     if (!episode) {
+      // save episode
       const createdMedia = new this.mediaModel(createMedia);
       return await createdMedia.save();
+    } else {
+      // update airtime date
+      return await episode.updateOne({
+        createdAt : createMedia.createdAt,
+        $set: { 'response.date': createMedia.response.date }
+      });
     }
   }
 
   async getAll(): Promise<FrontMedia> {
     return {
-      shows: await this.mediaModel.find({ type: 'DOCUMENTARY' }).sort({ createdAt: -1 }).limit(20),
-      movies: await this.mediaModel.find({ type: 'MOVIE' }).sort({ createdAt: -1 }).limit(20),
+      shows: await this.mediaModel.find({ type: 'DOCUMENTARY' }).sort({ createdAt: -1 }).limit(16),
+      movies: await this.mediaModel.find({ type: 'MOVIE' }).sort({ createdAt: -1 }).limit(16),
     };
   }
 
@@ -102,7 +109,7 @@ export class MediaService {
     return movies;
   }
 
-  private async searchAndSaveSingeShow(shows, showType: 'MOVIE' | 'DOCUMENTARY') {
+  async searchAndSaveSingeShow(shows: any[], showType: 'MOVIE' | 'DOCUMENTARY') {
 
     // setting random delay on each request
     const delayedRequest = (show) => {
@@ -122,6 +129,10 @@ export class MediaService {
               console.log('No .mp4');
               console.log('Recording ID: ', show.id);
               return;
+            }
+
+            if (episode.filename[0] !== '/') {
+              episode.filename = '/' + episode.filename;
             }
 
             const mediaData: MediaDto = {
