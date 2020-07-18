@@ -1,6 +1,6 @@
 <template>
   <section class="video-section">
-    <div class="video-main" v-if="episode">
+    <div class="video-main" v-if="episode && videoUrl">
 
       <div class="video-wrapper" ref="videoWrap" :class="{cast: isCasting}" @click="toggleCastPlay()">
         <video
@@ -80,15 +80,21 @@ export default class SingleEpisode extends Vue {
   isCasting = false;
   videoUrl = '';
   time = 0;
+  jwt = null;
 
   async mounted() {
     this.episode = await this.$store.getters.getShowById(this.id);
-    this.videoUrl = this.episode ? this.episode.link : '';
 
     if (!this.episode) {
       this.episode = await this.$store.dispatch('GET_ID', this.id);
-      this.videoUrl = this.episode.link;
     }
+
+    try {
+      this.jwt = await this.$store.dispatch('GET_JWT', this.id);
+    } catch (e) {
+    }
+
+    this.videoUrl = this.episode.link + `?keylockhash=${this.jwt}`;
 
     if (this.$cast.session) {
       this.initOngoingSession();
@@ -146,7 +152,7 @@ export default class SingleEpisode extends Vue {
     if (state === 'idle') {
       // load main player
       this.isCasting = false;
-      this.videoUrl = this.episode.link;
+      this.videoUrl = this.episode.link + `?keylockhash=${this.jwt}`;
       if (this.$refs.mainVideo) {
         (this.$refs.mainVideo as HTMLVideoElement).currentTime = this.time;
         (this.$refs.mainVideo as HTMLVideoElement).load();
