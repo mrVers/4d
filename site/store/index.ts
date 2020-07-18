@@ -7,7 +7,8 @@ export const state = (): RootState => ({
   movies: [],
   shows: [],
   searchResults: [],
-  isSearching: false
+  isSearching: false,
+  jwt: ''
 });
 
 export const mutations: MutationTree<RootState> = {
@@ -34,6 +35,10 @@ export const mutations: MutationTree<RootState> = {
 
   setIsSearching(rootState: RootState, isSearching: boolean): void {
     rootState.isSearching = isSearching;
+  },
+
+  setJwt(rootState: RootState, jwt: string): void {
+    rootState.jwt = jwt;
   }
 };
 
@@ -89,13 +94,18 @@ export const actions: ActionTree<RootState, any> = {
     }
   },
 
-  async GET_JWT(_, showId) {
+  async GET_JWT(store, showId) {
     try {
-      const corsProxy = 'https://cors-anywhere.herokuapp.com/';
-      const result = await this.$axios.$get(`${corsProxy}https://api.rtvslo.si/ava/getRecordingDrm/${showId}?client_id=82013fb3a531d5414f478747c1aca622`,
-        { headers: { 'Access-Control-Allow-Headers': 'Origin' } }
-      );
-      return result.response.jwt;
+      if (!store.state.jwt) {
+        const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+        const result = await this.$axios.$get(`${corsProxy}https://api.rtvslo.si/ava/getRecordingDrm/${showId}?client_id=82013fb3a531d5414f478747c1aca622`,
+          { headers: { 'Access-Control-Allow-Headers': 'Origin' } }
+        );
+        const jwt = result.response.jwt;
+        store.commit('setJwt', jwt);
+        return jwt;
+      }
+      return store.state.jwt;
     } catch (e) {
       console.log(e);
     }

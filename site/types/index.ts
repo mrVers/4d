@@ -11,6 +11,7 @@ export interface RootState {
   shows: Media[];
   searchResults: Media[];
   isSearching: boolean;
+  jwt: string;
 }
 
 export interface FrontMedia {
