@@ -81,7 +81,8 @@ export class MediaService {
       // search for foreign documentaries
       if (recording.geoblocked === '1' && (
         recording.stub === 'tuji-dokumentarni-filmi-in-oddaje' ||
-        recording.stub === 'dokumentarni-filmi-in-oddaje-izobrazevalni-program'
+        recording.stub === 'dokumentarni-filmi-in-oddaje-izobrazevalni-program' ||
+        recording.stub === 'slovenski-film'
       )) {
         shows.push({
           title: recording.title,
