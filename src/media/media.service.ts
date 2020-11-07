@@ -98,8 +98,9 @@ export class MediaService {
     const movies = [];
 
     data.recordings.forEach(recording => {
-      // search for foreign movies
-      if (recording.stub === 'tuji-filmi') {
+      // search for foreign or slovene movies
+      if (recording.stub === 'tuji-filmi' || recording.stub === 'slovenski-film') {
+        console.log(recording.title);
         movies.push({
           title: recording.title,
           id: recording.id
